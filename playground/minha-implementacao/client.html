@@ -39,33 +39,45 @@
                 function movePlayer(command){
                     console.log(`Moving ${command.playerId} with ${command.keyPressed}`)
 
+                    const acceptedMoves = {
+                        ArrowUp(player) {
+                            console.log('Moving player up')
+                            if((command.keyPressed === 'ArrowUp') && ((player.y - 1) >= 0)){
+                                player.y = player.y - 1
+                            }
+                        },
+                        ArrowRight(player) {
+                            console.log('Moving player Rigth')
+                            if ((command.keyPressed === 'ArrowRight') && ((player.x + 1) < screen.width)){
+                                player.x = player.x + 1               
+                            }
+                        },
+                        ArrowDown(player) {
+                            console.log('Moving player Down')
+                            if ((command.keyPressed === 'ArrowDown') && ((player.y + 1) < screen.height)){
+                                player.y = player.y + 1
+                            }
+                        },
+                        ArrowLeft(player) {
+                            console.log('Moving player Left')
+                            if ((command.keyPressed === 'ArrowLeft') && ((player.x - 1) >= 0)){
+                                player.x = player.x -1                 
+                            }
+                        }
+                    }
+
                     const player = state.players[currentplayer]
-                
-                    if((command.keyPressed === 'ArrowUp') && ((player.y - 1) >= 0)){
-                        player.y = player.y - 1
-                        return
+                    const moveFunction = acceptedMoves[command.keyPressed]
+
+                    if (moveFunction) {
+                        moveFunction(player)
                     }
 
-                    if ((command.keyPressed === 'ArrowDown') && ((player.y + 1) < screen.height)){
-                        player.y = player.y + 1
-                        return
-                    }
 
-                    if ((command.keyPressed === 'ArrowRight') && ((player.x + 1) < screen.width)){
-                        player.x = player.x + 1
-                        return                    
+                    return {
+                        movePlayer,
+                        state
                     }
-
-                    if ((command.keyPressed === 'ArrowLeft') && ((player.x - 1) >= 0)){
-                        player.x = player.x -1
-                        return                    
-                    }
-                }
-
-                return {
-                    movePlayer,
-                    state
-                }
             }
 
 
